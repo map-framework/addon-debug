@@ -1,6 +1,7 @@
 <?php
 namespace handler\exception;
 
+use MAPAutoloader;
 use util\MAPException;
 use data\file\File;
 use util\Logger;
@@ -17,7 +18,7 @@ use xml\XSLProcessor;
  */
 final class DebugMAPExceptionHandler implements ExceptionHandlerInterface {
 
-	const PATH_STYLESHEET = 'public/src/misc/xsl/debugMAPException.xsl';
+	const PATH_STYLESHEET = 'misc/xsl/debugMAPException.xsl';
 
 	public static function handle(Throwable $exception):bool {
 		if (!($exception instanceof MAPException)) {
@@ -30,7 +31,12 @@ final class DebugMAPExceptionHandler implements ExceptionHandlerInterface {
 		Logger::error('Uncaught MAPException (see: `'.Logger::storeTree($tree, '.xml').'`)');
 
 		echo (new XSLProcessor())
-				->setStyleSheetFile(new File(self::PATH_STYLESHEET))
+				->setStyleSheetFile(
+						(new File(MAPAutoloader::PATH_ADDONS))
+								->attach('debug')
+								->attach(MAPAutoloader::PATH_SOURCE)
+								->attach(self::PATH_STYLESHEET)
+				)
 				->setDocumentDoc($tree->toDomDoc())
 				->transform();
 		return true;
