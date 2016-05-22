@@ -31,13 +31,13 @@ final class DebugMAPExceptionHandler implements ExceptionHandlerInterface {
 		Logger::error('Uncaught MAPException (see: `'.Logger::storeTree($tree, '.xml').'`)');
 
 		echo (new XSLProcessor())
-				->setStyleSheetFile(
+				->setStylesheetFile(
 						(new File(MAPAutoloader::PATH_ADDONS))
 								->attach('debug')
 								->attach(MAPAutoloader::PATH_SOURCE)
 								->attach(self::PATH_STYLESHEET)
 				)
-				->setDocumentDoc($tree->toDomDoc())
+				->setDocument($tree->toDomDoc())
 				->transform();
 		return true;
 	}
