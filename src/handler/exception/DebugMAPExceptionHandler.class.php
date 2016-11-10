@@ -32,7 +32,7 @@ final class DebugMAPExceptionHandler implements ExceptionHandlerInterface {
 
 		echo (new XSLProcessor())
 				->setStylesheetFile(
-						(new File(MAPAutoloader::PATH_ADDONS))
+						(new File(MAPAutoloader::PATH_ADD_ONS))
 								->attach('debug')
 								->attach(MAPAutoloader::PATH_SOURCE)
 								->attach(self::PATH_STYLESHEET)
